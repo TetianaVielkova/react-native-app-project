@@ -13,10 +13,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export default function RegistrationScreen() {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowKey, setIsShowKey] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   
   const passwordHandler = (text) => setPassword(text);
   const emailHandler = (text) => setEmail(text);
@@ -42,7 +43,7 @@ export default function RegistrationScreen() {
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}
         >
-        <View style={{ marginBottom: isShowKey ? 32 : 79}}>
+        <View style={{...styles.form, paddingBottom: isShowKey ? 32 : 79}}>
         <Text style={styles.title}>Войти</Text>
           <TextInput
             value={email}
@@ -51,15 +52,19 @@ export default function RegistrationScreen() {
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
           />
+          <View>
           <TextInput
             value={password}
             onChangeText={passwordHandler}
             placeholder="Пароль"
-            secureTextEntry={true}
+            secureTextEntry={showPassword ? true : false}
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
           />
-          <Button title={"Показать"}/>
+          <TouchableOpacity style={styles.showPasswordBtn} activeOpacity={0.8} onPress={() => setShowPassword(!showPassword)}>
+                <Text style={styles.showPasswordText}>{showPassword ? "Показать" : "Скрыть"}</Text>
+          </TouchableOpacity>
+          </View>
           <View>
             <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin}>
                 <Text style={styles.buttonText} >Войти</Text>
@@ -76,12 +81,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
   },
+  form: {
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 16,
+    paddingTop: 32,
+    paddingBottom: 130,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   title: {
-    fontFamily: "Roboto-Medium",
+    color: "#212121",
+    textAlign: "center",
     fontSize: 30,
+    fontFamily: "Roboto-Medium",
     lineHeight: 35,
-    color: '#212121',
-    textAlign: 'center',
+    letterSpacing: 0.01,
+    marginBottom: 25,
+  },
+  showPasswordText: {
+    color: "#1B4371",
+    fontFamily: "Roboto-Regular",
+    fontSize: 14,
+    lineHeight: 19,
+  },
+  showPasswordBtn: {
+    position: "absolute",
+    right: 32,
+    top: 32,
   },
   boxButton: {
     margin: 16,
@@ -100,6 +126,7 @@ const styles = StyleSheet.create({
   },
   input: {
     background: '#F6F6F6',
+    paddingHorizontal: 16,
     height: 50,
     padding: 10,
     borderWidth: 1,
@@ -112,5 +139,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto-Regular",
     textAlign: 'center',
+    color: "#1B4371",
   },
 });
