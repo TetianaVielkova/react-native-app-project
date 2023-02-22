@@ -15,10 +15,9 @@ const loadFonts = async () => {
 
 export default function App() {
 
-  const [isReady, setIsReady] = useState(false);
-
-  if(!isReady) {
-    return <AppLoading startAsync={loadFonts} onFinish={() => setIsReady(true)}/>
+  const [isReady, setIsReady] = useState(false)
+  if (!isReady) {
+      return <AppLoading startAsync={loadFonts} onFinish={() => setIsReady(true)} onError={console.warn}/>
   }
 
   return (
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    fontFamily: "Roboto-Regular",
   },
   image: {
     flex: 1,
