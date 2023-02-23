@@ -1,13 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet,  View, Dimensions } from 'react-native';
 import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
 import { useCallback } from 'react';
-// import LoginScreen from './Screens/LoginScreen/LoginScreen';
+import LoginScreen from './Screens/LoginScreen/LoginScreen';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from 'expo-status-bar';
 
 SplashScreen.preventAutoHideAsync();
 
+const MainStack = createStackNavigator();
 
   export default function App() {
     const [fontsLoaded] = useFonts({
@@ -26,25 +28,14 @@ SplashScreen.preventAutoHideAsync();
     }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <ImageBackground source={require("./assets/PhotoBG.jpg")} style={styles.image}>
-      <RegistrationScreen/>
-      {/* <LoginScreen /> */}
-      </ImageBackground>
-      <StatusBar style="auto" />
-    </View>
+    <>
+    <StatusBar style="auto" />
+    <NavigationContainer onLayout={onLayoutRootView}>
+      <MainStack.Navigator>
+        <MainStack.Screen options={{ headerShown: false }} name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+      </MainStack.Navigator>
+    </NavigationContainer>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    fontFamily: "Roboto-Regular",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-});

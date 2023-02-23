@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  ImageBackground,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
@@ -40,6 +41,7 @@ export default function LoginScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
+      <ImageBackground source={require("./../../assets/PhotoBG.jpg")} style={styles.image}>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}
         >
@@ -70,9 +72,12 @@ export default function LoginScreen() {
                 <Text style={styles.buttonText} >Войти</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.text}>Нет аккаунта? Зарегистрироваться</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+              <Text style={styles.text}>Нет аккаунта? Зарегистрироваться</Text>
+            </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>
+        </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }
@@ -80,6 +85,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-end",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
   form: {
     backgroundColor: "#ffffff",
