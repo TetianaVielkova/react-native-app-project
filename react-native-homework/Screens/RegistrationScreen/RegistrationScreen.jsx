@@ -10,12 +10,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Button,
   TouchableOpacity,
 } from "react-native";
 
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,11 +80,11 @@ export default function RegistrationScreen() {
           </View>
           <View>
             <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin}>
-                <Text style={styles.buttonText} >Войти</Text>
+                <Text style={styles.buttonText} >Зарегистрироваться</Text>
             </TouchableOpacity>
           </View>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.text}>Нет аккаунта? Зарегистрироваться</Text>
+              <Text style={styles.text}>Уже есть аккаунт? Войти</Text>
             </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>

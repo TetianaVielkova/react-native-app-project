@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowKey, setIsShowKey] = useState(false);
