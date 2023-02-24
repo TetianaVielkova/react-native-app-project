@@ -5,6 +5,7 @@ import { NavigationContainer} from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from './router';
 
+
   export default function App() {
 
     const routing = useRoute({});
@@ -31,5 +32,6 @@ import { useRoute } from './router';
     </>
   );
 }
+
 
 
