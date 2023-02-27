@@ -9,29 +9,24 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
-  Button,
   TouchableOpacity,
 } from "react-native";
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const initialState = {
+  email: "",
+  password: "",
+};
+
+const LoginScreen = ({ navigation }) => {
+  const [state, setState] = useState(initialState);
   const [isShowKey, setIsShowKey] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
-  
-  const passwordHandler = (text) => setPassword(text);
-  const emailHandler = (text) => setEmail(text);
 
   const onLogin = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
-
-    console.log("User login", `Email:${email} Password:${password}`);
-    Alert.alert("User login", ` Email:${email} Password:${password}`);
-    
-    setPassword('');
-    setEmail('');
+    console.log(state);
+    setState(initialState);
   };
 
   const keyboardHide = () => {
@@ -48,16 +43,19 @@ export default function LoginScreen({ navigation }) {
         <View style={{...styles.form, paddingBottom: isShowKey ? 32 : 79}}>
         <Text style={styles.title}>Войти</Text>
           <TextInput
-            value={email}
-            onChangeText={emailHandler}
+            value={state.email}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, email: value }))}
             placeholder="Адрес электронной почты"
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
           />
           <View>
           <TextInput
-            value={password}
-            onChangeText={passwordHandler}
+            value={state.password}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, password: value }))
+            }
             placeholder="Пароль"
             secureTextEntry={showPassword ? true : false}
             style={styles.input}
@@ -68,8 +66,8 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin}>
-                <Text style={styles.buttonText} >Войти</Text>
+            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin} >
+                <Text style={styles.buttonText}>Войти</Text>
             </TouchableOpacity>
           </View>
             <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
@@ -152,3 +150,6 @@ const styles = StyleSheet.create({
     color: "#1B4371",
   },
 });
+
+
+export default LoginScreen;

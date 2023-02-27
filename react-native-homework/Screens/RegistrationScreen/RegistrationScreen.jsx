@@ -9,38 +9,32 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
 
-export default function RegistrationScreen({ navigation }) {
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const RegistrationScreen = ({ navigation }) => {
+  const [state, setState] = useState(initialState);
   const [isShowKey, setIsShowKey] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
-  
-
-  const loginHandler = (text) => setLogin(text);
-  const passwordHandler = (text) => setPassword(text);
-  const emailHandler = (text) => setEmail(text);
 
   const onLogin = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
 
-    console.log("User", `Login: ${login}  Email:${email} Password:${password}`);
-    Alert.alert("User", `Login: ${login}  Email:${email} Password:${password}`);
-    
-    setLogin('');
-    setPassword('');
-    setEmail('');
+    console.log(state);
+
   };
 
   const keyboardHide = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
+    setState(initialState);
   }
 
   return (
@@ -52,23 +46,31 @@ export default function RegistrationScreen({ navigation }) {
         <View style={{...styles.form, paddingBottom: isShowKey ? 32 : 79}}>
         <Text style={styles.title}>Регистрация</Text>
           <TextInput
-            value={login}
-            onChangeText={loginHandler}
+            value={state.login}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, login: value }))
+            }
             placeholder="Логин"
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
           />
           <TextInput
-            value={email}
-            onChangeText={emailHandler}
+            value={state.email}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, email: value }))
+            }
             placeholder="Адрес электронной почты"
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
           />
           <View>
           <TextInput
-            value={password}
-            onChangeText={passwordHandler}
+            value={state.password}
+            onChangeText={(value) =>
+              setState((prevState) => ({
+                ...prevState,
+                password: value,
+              }))}
             placeholder="Пароль"
             secureTextEntry={showPassword ? true : false}
             style={styles.input}
@@ -163,3 +165,5 @@ const styles = StyleSheet.create({
     color: "#1B4371",
   },
 });
+
+export default RegistrationScreen;
