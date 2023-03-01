@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-import { TouchableOpacityBase } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';
@@ -31,10 +31,11 @@ export const useRoute = (isAuth) => {
         fontSize: 20,
     },
     headerRight: () => (
-        <TouchableOpacityBase style={{ marginRight: 20 }} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity style={{ marginRight: 20 }} onPress={() => navigation.navigate("Login")}>
             <Feather name="log-out" size={24} color="#BDBDBD" />
-        </TouchableOpacityBase>
-    ),}}
+        </TouchableOpacity>
+    ),
+    headerTitle: "Публикации",}}
     name='Posts' component={PostScreen}/>
     <MainTab.Screen options={{
     tabBarIcon: ({ focused, size, color }) => (
@@ -42,7 +43,8 @@ export const useRoute = (isAuth) => {
     headerTitleStyle: {
         fontWeight: "bold",
         fontSize: 20,
-    },}}
+    },
+    headerTitle: "Создать публикацию"}}
     name='Create' component={CreatePostScreen}/>
     <MainTab.Screen options={{
     tabBarIcon: ({ focused, size, color }) => (
