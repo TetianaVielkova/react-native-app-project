@@ -39,7 +39,7 @@ const RegistrationScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ImageBackground source={require("./../../assets/PhotoBG.jpg")} style={styles.image}>
+      <ImageBackground source={require("../../../assets/PhotoBG.jpg")} style={styles.image}>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}
         >

@@ -6,8 +6,8 @@ const MainTab = createBottomTabNavigator();
 
 import { TouchableOpacity } from "react-native";
 
-import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
-import LoginScreen from './Screens/LoginScreen/LoginScreen';
+import RegistrationScreen from './Screens/authScreens/RegistrationScreen/RegistrationScreen';
+import LoginScreen from './Screens/authScreens/LoginScreen/LoginScreen';
 import PostScreen from './Screens/MainScreen/PostsScreen/PostsScreen';
 import CreatePostScreen from './Screens/MainScreen/CreatePostsScreen/CreatePostsScreen';
 import ProfileScreen from './Screens/MainScreen/ProfileScreen/ProfileScreen';
@@ -35,7 +35,7 @@ export const useRoute = (isAuth) => {
             <Feather name="log-out" size={24} color="#BDBDBD" />
         </TouchableOpacity>
     ),
-    headerTitle: "Публикации",}}
+    headerTitle: "Публікації",}}
     name='Posts' component={PostScreen}/>
     <MainTab.Screen options={{
     tabBarIcon: ({ focused, size, color }) => (
@@ -44,7 +44,7 @@ export const useRoute = (isAuth) => {
         fontWeight: "bold",
         fontSize: 20,
     },
-    headerTitle: "Создать публикацию"}}
+    headerTitle: "Створити публікацію"}}
     name='Create' component={CreatePostScreen}/>
     <MainTab.Screen options={{
     tabBarIcon: ({ focused, size, color }) => (
@@ -53,7 +53,7 @@ export const useRoute = (isAuth) => {
         fontWeight: "bold",
         fontSize: 20,
     },}}
-    name='Profile' component={ProfileScreen}/>
+    name='Профіль' component={ProfileScreen}/>
 </MainTab.Navigator>}
 
 

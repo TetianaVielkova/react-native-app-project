@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer} from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from './router';
+import { View, StyleSheet } from 'react-native';
 
 
   export default function App() {
@@ -26,12 +27,15 @@ import { useRoute } from './router';
     }
 
   return (
-    <>
+    <View style={styles.container}>
     <StatusBar style="auto" />
     <NavigationContainer onLayout={onLayoutRootView}>{routing}</NavigationContainer>
-    </>
+    </View>
   );
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+  },})
 
