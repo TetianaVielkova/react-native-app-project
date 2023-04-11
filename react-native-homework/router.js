@@ -6,11 +6,11 @@ const MainTab = createBottomTabNavigator();
 
 import { TouchableOpacity } from "react-native";
 
-import RegistrationScreen from './Screens/authScreens/RegistrationScreen/RegistrationScreen';
-import LoginScreen from './Screens/authScreens/LoginScreen/LoginScreen';
-import PostScreen from './Screens/MainScreen/PostsScreen/PostsScreen';
-import CreatePostScreen from './Screens/MainScreen/CreatePostsScreen/CreatePostsScreen';
-import ProfileScreen from './Screens/MainScreen/ProfileScreen/ProfileScreen';
+import RegistrationScreen from './Screens/authScreens/RegistrationScreen';
+import LoginScreen from './Screens/authScreens/LoginScreen';
+import PostScreen from './Screens/MainScreen/PostsScreen';
+import CreatePostScreen from './Screens/MainScreen/CreatePostsScreen';
+import ProfileScreen from './Screens/MainScreen/ProfileScreen';
 
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 

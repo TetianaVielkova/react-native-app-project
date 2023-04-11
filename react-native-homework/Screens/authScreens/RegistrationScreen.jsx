@@ -13,11 +13,12 @@ import {
 } from "react-native";
 
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };
 
-const LoginScreen = ({ navigation }) => {
+const RegistrationScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
   const [isShowKey, setIsShowKey] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
@@ -25,27 +26,39 @@ const LoginScreen = ({ navigation }) => {
   const onLogin = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
+
     console.log(state);
-    setState(initialState);
+
   };
 
   const keyboardHide = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
+    setState(initialState);
   }
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ImageBackground source={require("../../../assets/PhotoBG.jpg")} style={styles.image}>
+      <ImageBackground source={require("../../assets/PhotoBG.jpg")} style={styles.image}>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}
         >
         <View style={{...styles.form, paddingBottom: isShowKey ? 32 : 79}}>
-        <Text style={styles.title}>Войти</Text>
+        <Text style={styles.title}>Регистрация</Text>
+          <TextInput
+            value={state.login}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, login: value }))
+            }
+            placeholder="Логин"
+            style={styles.input}
+            onFocus={() => setIsShowKey(true)}
+          />
           <TextInput
             value={state.email}
             onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, email: value }))}
+              setState((prevState) => ({ ...prevState, email: value }))
+            }
             placeholder="Адрес электронной почты"
             style={styles.input}
             onFocus={() => setIsShowKey(true)}
@@ -54,8 +67,10 @@ const LoginScreen = ({ navigation }) => {
           <TextInput
             value={state.password}
             onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, password: value }))
-            }
+              setState((prevState) => ({
+                ...prevState,
+                password: value,
+              }))}
             placeholder="Пароль"
             secureTextEntry={showPassword ? true : false}
             style={styles.input}
@@ -66,12 +81,12 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin} >
-                <Text style={styles.buttonText}>Войти</Text>
+            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin}>
+                <Text style={styles.buttonText} >Зарегистрироваться</Text>
             </TouchableOpacity>
           </View>
-            <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
-              <Text style={styles.text}>Нет аккаунта? Зарегистрироваться</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.text}>Уже есть аккаунт? Войти</Text>
             </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>
@@ -151,5 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default LoginScreen;
+export default RegistrationScreen;
