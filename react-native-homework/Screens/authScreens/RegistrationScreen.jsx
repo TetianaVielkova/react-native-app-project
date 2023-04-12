@@ -11,6 +11,8 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from 'react-redux';
+import { authSignUpUser } from '../../redux/auth/authOperations';
 
 const initialState = {
   login: "",
@@ -23,19 +25,19 @@ const RegistrationScreen = ({ navigation }) => {
   const [isShowKey, setIsShowKey] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
-  const onLogin = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
-
-    console.log(state);
-
+    dispatch(authSignUpUser(state));
+    setState(initialState);
   };
 
   const keyboardHide = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
-    setState(initialState);
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -81,7 +83,7 @@ const RegistrationScreen = ({ navigation }) => {
           </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={handleSubmit}>
                 <Text style={styles.buttonText} >Зарегистрироваться</Text>
             </TouchableOpacity>
           </View>

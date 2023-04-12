@@ -12,6 +12,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useDispatch } from 'react-redux';
+import { authSignInUser } from '../../redux/auth/authOperations';
+
 const initialState = {
   email: "",
   password: "",
@@ -22,9 +25,12 @@ const LoginScreen = ({ navigation }) => {
   const [isShowKey, setIsShowKey] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
-  const onLogin = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
     setIsShowKey(false);
     Keyboard.dismiss();
+    dispatch(authSignInUser(state))
     console.log(state);
     setState(initialState);
   };
@@ -66,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={onLogin} >
+            <TouchableOpacity activeOpacity={0.8} style={styles.boxButton} onPress={handleSubmit} >
                 <Text style={styles.buttonText}>Войти</Text>
             </TouchableOpacity>
           </View>

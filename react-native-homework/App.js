@@ -1,15 +1,28 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer} from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from './router';
-import { View, StyleSheet } from 'react-native';
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
+import { onAuthStateChanged } from "firebase/auth";
+import {auth} from './fіrebase/config'
 
 
   export default function App() {
+    const [user, setUser] = useState(null)
 
-    const routing = useRoute({});
+    const routing = useRoute(user);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+        const uid = user.uid;
+      }
+    });
+    
 
     const [fontsLoaded] = useFonts({
       "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -27,15 +40,10 @@ import { View, StyleSheet } from 'react-native';
     }
 
   return (
-    <View style={styles.container}>
-    <StatusBar style="auto" />
-    <NavigationContainer onLayout={onLayoutRootView}>{routing}</NavigationContainer>
-    </View>
+      <Provider store={store}>
+        <StatusBar style="auto" />
+        <NavigationContainer onLayout={onLayoutRootView}>{routing}</NavigationContainer>
+      </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-  },})
 
