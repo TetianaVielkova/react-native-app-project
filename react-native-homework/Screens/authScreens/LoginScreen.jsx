@@ -31,7 +31,6 @@ const LoginScreen = ({ navigation }) => {
     setIsShowKey(false);
     Keyboard.dismiss();
     dispatch(authSignInUser(state))
-    console.log(state);
     setState(initialState);
   };
 

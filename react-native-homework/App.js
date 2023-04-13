@@ -1,29 +1,13 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { NavigationContainer} from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
-import { useRoute } from './router';
-import { Provider } from "react-redux";
+import { Provider} from "react-redux";
 import { store } from "./redux/store";
-
-import { onAuthStateChanged } from "firebase/auth";
-import {auth} from './fіrebase/config'
+import {Main} from './components/Main';
 
 
   export default function App() {
-    const [user, setUser] = useState(null)
-
-    const routing = useRoute(user);
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
-        const uid = user.uid;
-      }
-    });
-    
-
     const [fontsLoaded] = useFonts({
       "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
       "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -42,7 +26,7 @@ import {auth} from './fіrebase/config'
   return (
       <Provider store={store}>
         <StatusBar style="auto" />
-        <NavigationContainer onLayout={onLayoutRootView}>{routing}</NavigationContainer>
+        <Main onLayout={onLayoutRootView}/>
       </Provider>
   );
 }

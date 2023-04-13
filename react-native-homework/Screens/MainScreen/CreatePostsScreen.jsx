@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useSelector} from 'react-redux';
 import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput } from  'react-native';
 import { Camera } from "expo-camera";
 import { Entypo, Feather, EvilIcons } from '@expo/vector-icons'; 
 import * as Location from "expo-location";
-import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from 'expo-image-picker';
-
+import uuid from "react-native-uuid";
+import {storage, db} from '../../fіrebase/config';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 
 const initialState = {
     title: "",
@@ -20,6 +23,7 @@ const CreatePostScreen = ({navigation}) => {
     const [isShowKey, setIsShowKey] = useState(false);
     const [hasPermission, setHasPermission] = useState(null);
 
+    const { userId, login } = useSelector((state) => state.auth);
 
     useEffect(() => {
         (async () => {
@@ -28,13 +32,14 @@ const CreatePostScreen = ({navigation}) => {
                 console.log("Permission to access location was denied");
                 return;
             }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
         })();
     }, []);
 
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
-            await MediaLibrary.requestPermissionsAsync();
     
             setHasPermission(status === "granted");
         })();
@@ -55,13 +60,12 @@ const CreatePostScreen = ({navigation}) => {
 
     const takePhoto = async () => {
         const photo = await camera.takePictureAsync();
-        const location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
         setPhoto(photo.uri);
     };
 
-    const sendPhoto = () => {
-        navigation.navigate('DefaultScreen', {photo});
+    const sendPhoto = async () => {
+        uploadPostToServer();
+        navigation.navigate('DefaultScreen');
         setInputState(initialState);
         setPhoto(null);
     };
@@ -82,6 +86,32 @@ const CreatePostScreen = ({navigation}) => {
         setIsShowKey(false);
         Keyboard.dismiss();
     };
+
+    const uploadPhotoToServer = async() => {
+        const response = await fetch(photo);
+        const file = await response.blob();
+        const uniquePostId = uuid.v4();
+        const storageRef = ref(storage, `postImage/${uniquePostId}`);
+        await uploadBytes(storageRef, file);
+        const processedPhoto = await getDownloadURL(storageRef);
+        return processedPhoto;
+    }
+
+    const uploadPostToServer = async () => {
+        const photo = await uploadPhotoToServer();
+        try {
+          await addDoc(collection(db, "posts"), {
+            userId,
+            login,
+            photo,
+            title: inputState.title,
+            place: inputState.location,
+            location: location.coords,
+          });
+        } catch (error) {
+          console.log("error", error.message);
+        }
+      };
 
     return(
         <View style={styles.container}>

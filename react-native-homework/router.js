@@ -14,8 +14,16 @@ import ProfileScreen from './Screens/MainScreen/ProfileScreen';
 
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "./redux/auth/authOperations";
 
 export const useRoute = (isAuth) => {
+    dispatch = useDispatch();
+
+    const signOut = () => {
+        dispatch(authSignOutUser());
+    };
+
     if (!isAuth) {
         return  <AuthStack.Navigator initialRouteName="Login">
             <AuthStack.Screen options={{ headerShown: false }} name="Registration" component={RegistrationScreen} />
@@ -31,7 +39,7 @@ export const useRoute = (isAuth) => {
         fontSize: 20,
     },
     headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 20 }} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity style={{ marginRight: 20 }} onPress={signOut}>
             <Feather name="log-out" size={24} color="#BDBDBD" />
         </TouchableOpacity>
     ),
