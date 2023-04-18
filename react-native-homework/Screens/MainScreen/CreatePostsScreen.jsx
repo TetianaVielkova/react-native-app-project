@@ -23,7 +23,7 @@ const CreatePostScreen = ({navigation}) => {
     const [isShowKey, setIsShowKey] = useState(false);
     const [hasPermission, setHasPermission] = useState(null);
 
-    const { userId, login } = useSelector((state) => state.auth);
+    const { userId, login, email } = useSelector((state) => state.auth);
 
     useEffect(() => {
         (async () => {
@@ -61,6 +61,8 @@ const CreatePostScreen = ({navigation}) => {
     const takePhoto = async () => {
         const photo = await camera.takePictureAsync();
         setPhoto(photo.uri);
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
     };
 
     const sendPhoto = async () => {
@@ -100,18 +102,19 @@ const CreatePostScreen = ({navigation}) => {
     const uploadPostToServer = async () => {
         const photo = await uploadPhotoToServer();
         try {
-          await addDoc(collection(db, "posts"), {
+            await addDoc(collection(db, "posts"), {
             userId,
             login,
             photo,
+            email,
             title: inputState.title,
             place: inputState.location,
-            location: location.coords,
-          });
+            location: location,
+            });
         } catch (error) {
-          console.log("error", error.message);
+            console.log("error", error.message);
         }
-      };
+        };
 
     return(
         <View style={styles.container}>
@@ -145,31 +148,31 @@ const CreatePostScreen = ({navigation}) => {
                 name="location"
                 size={24}
                 color="#BDBDBD"
-              />
-              <TextInput
+            />
+            <TextInput
                 style={styles.locationInput}
                 placeholder={"Локація..."}
                 value={inputState.location}
                 onFocus={() => setIsShowKey(true)}
                 onChangeText={(value) =>
-                  setInputState((prev) => ({ ...prev, location: value }))
+                    setInputState((prev) => ({ ...prev, location: value }))
                 }
-              />
+            />
             </View>
-          </View>
+            </View>
             <View>
                 <TouchableOpacity onPress={sendPhoto} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Опублікувати</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.deleteButtonContainer}>
-          <TouchableOpacity
-              onPress={deletePhoto}
-              activeOpacity={0.8}
-              style={styles.deleteButton}
-              >
-              <Feather name="trash-2" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
+            <TouchableOpacity
+                onPress={deletePhoto}
+                activeOpacity={0.8}
+                style={styles.deleteButton}
+                >
+                <Feather name="trash-2" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
         </View>
         </View>
     )

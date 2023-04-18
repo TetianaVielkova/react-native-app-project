@@ -8,7 +8,7 @@ import { TouchableOpacity } from "react-native";
 
 import RegistrationScreen from './Screens/authScreens/RegistrationScreen';
 import LoginScreen from './Screens/authScreens/LoginScreen';
-import PostScreen from './Screens/MainScreen/PostsScreen';
+import PostsScreen from './Screens/MainScreen/PostsScreen';
 import CreatePostScreen from './Screens/MainScreen/CreatePostsScreen';
 import ProfileScreen from './Screens/MainScreen/ProfileScreen';
 
@@ -44,7 +44,7 @@ export const useRoute = (isAuth) => {
         </TouchableOpacity>
     ),
     headerTitle: "Публікації",}}
-    name='Posts' component={PostScreen}/>
+    name='Posts' component={PostsScreen}/>
     <MainTab.Screen options={{
     tabBarIcon: ({ focused, size, color }) => (
     <AntDesign name="plus"  size={32} color="color" />),
